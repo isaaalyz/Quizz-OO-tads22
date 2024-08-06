@@ -16,27 +16,12 @@ import javafx.stage.Stage;
  */
 public class App extends Application {
 
-
     private ControladorQuiz controladorQuiz;
-    // @Override
-    // public void init() throws Exception {
-    // super.init();
 
-    // ArrayList<Questao> lista = new ArrayList<>();
-
-    // lista.add(new Questao("Qual a capital do Paraná?", "Curitiba", new
-    // String[]{"Floripa", "Porto Alegre", "São Paulo"}));
-    // lista.add(new Questao("Qual a capital de São Paulo?", "São Paulo", new
-    // String[]{"Floripa", "Rio de Janeiro", "Campo Grande"}));
-    // lista.add(new Questao("Qual a capital do Acre?", "Rio Branco", new
-    // String[]{"Manaus","Palmas", "João Pessoa"}));
-    // lista.add(new Questao("Qual a capital de Rondonia?", "Porto Velho", new
-    // String[]{"Belém", "Macapá", "Manaus"}));
-
-    // }
 
     @Override
     public void init() throws Exception {
+        super.init();
 
         ArrayList<Questao> lista = new ArrayList<>();
 
@@ -52,10 +37,8 @@ public class App extends Application {
                 new String[] { "preto", "laranja", "roxo", "vermelho" }));
 
         controladorQuiz = new ControladorQuiz(lista);
-        
-    }
 
- 
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -64,15 +47,12 @@ public class App extends Application {
         // root.setStyle("-fx-background-color: green");
 
         Questao questao = this.controladorQuiz.getQuestao();
-    
 
         Text enunciado = new Text(questao.getEnunciado());
         root.getChildren().add(enunciado);
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10.0);
 
-
-        
         Button alternativa1 = new Button(questao.getTodasAlternativas().get(0));
         root.getChildren().add(alternativa1);
         Button alternativa2 = new Button(questao.getTodasAlternativas().get(1));
@@ -96,7 +76,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        launch();
+        launch(args);
     }
 
 }
