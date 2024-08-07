@@ -27,7 +27,6 @@ public class ControladorQuiz {
     }
 
     public boolean temProximaQuestao() {
-
         return questaoAtual < getTotalQuestao();
     }
 

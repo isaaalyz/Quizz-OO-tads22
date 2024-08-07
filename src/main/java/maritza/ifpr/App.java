@@ -1,9 +1,11 @@
 package maritza.ifpr;
 
+
 import java.util.ArrayList;
 
 import javafx.application.Application;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -18,6 +20,16 @@ public class App extends Application {
 
     private ControladorQuiz controladorQuiz;
 
+    private VBox root;
+    private Scene cena;
+    private Text enunciado;
+    private Button alternativa1;
+    private Button alternativa2;
+    private Button alternativa3;
+    private Button alternativa4;
+    private Button alternativa5;
+    private Text resultado;
+    private Button proxima;
 
     @Override
     public void init() throws Exception {
@@ -43,36 +55,92 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        VBox root = new VBox();
-        // root.setStyle("-fx-background-color: green");
+        inicializaComponentes();
+        atualizaComponentes();
 
-        Questao questao = this.controladorQuiz.getQuestao();
+        cena = new Scene(root, 300, 300);
 
-        Text enunciado = new Text(questao.getEnunciado());
+        stage.setScene(cena);
+        stage.show();
+
+    }
+
+    public void inicializaComponentes() {
+        enunciado = new Text("Enunciado");
+        alternativa1 = new Button("Questão 1");
+        alternativa2 = new Button("Questão 2");
+        alternativa3 = new Button("Questão 3");
+        alternativa4 = new Button("Questão 4");
+        alternativa5 = new Button("Questão 5");
+
+        resultado = new Text("Resultado");
+        proxima = new Button("Próxima");
+
+        root = new VBox();
         root.getChildren().add(enunciado);
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10.0);
 
-        Button alternativa1 = new Button(questao.getTodasAlternativas().get(0));
         root.getChildren().add(alternativa1);
-        Button alternativa2 = new Button(questao.getTodasAlternativas().get(1));
         root.getChildren().add(alternativa2);
-        Button alternativa3 = new Button(questao.getTodasAlternativas().get(2));
         root.getChildren().add(alternativa3);
-        Button alternativa4 = new Button("Alternativa 4");
         root.getChildren().add(alternativa4);
-        Button alternativa5 = new Button("Alternativa 5");
         root.getChildren().add(alternativa5);
 
-        alternativa1.setOnAction(this::respondeQuestao);
+        alternativa1.setOnAction(respondeQuestao());
+        alternativa2.setOnAction(respondeQuestao());
+        alternativa3.setOnAction(respondeQuestao());
+        alternativa4.setOnAction(respondeQuestao());
+        alternativa5.setOnAction(respondeQuestao());
+        proxima.setOnAction(proximaQuestao());
 
-        Scene scene = new Scene(root, 500, 500);
-        stage.setScene(scene);
-        stage.show();
     }
 
-    private void respondeQuestao(Event event) {
-        System.out.println("EU CLIQUEI NESSE BOTÃO");
+    public void atualizaComponentes() {
+
+        Questao objQuestao = controladorQuiz.getQuestao();
+        ArrayList<String> questoes = objQuestao.getTodasAlternativas();
+
+        alternativa1.setText(questoes.get(0));
+        alternativa2.setText(questoes.get(1));
+        alternativa3.setText(questoes.get(2));
+        alternativa4.setText(questoes.get(3));
+        alternativa5.setText(questoes.get(4));
+
+    }
+
+    
+    private EventHandler respondeQuestao() {
+        return new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                Button clicado = (Button) event.getSource();
+                String alternativa = clicado.getText();
+
+                boolean result = controladorQuiz.respondeQuestao(alternativa);
+
+                if (result) {
+                    resultado.setText("uhull!! Acertou");
+                }else{
+                    resultado.setText("Que pena!! você errou");
+                }
+
+            }
+        };
+    }
+
+    private EventHandler proximaQuestao() {
+        return new EventHandler<Event>() {
+            @Override
+            public void handle(Event event) {
+                // tem próxima questao?
+                if (controladorQuiz.temProximaQuestao()) {
+                    // se sim muda para a próxima e atualiza a tela
+                    controladorQuiz.proximaQuestao();
+                    atualizaComponentes();
+                }
+            }
+        };
     }
 
     public static void main(String[] args) {
