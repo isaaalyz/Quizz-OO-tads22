@@ -1,6 +1,5 @@
 package maritza.ifpr;
 
-
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -9,6 +8,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -60,18 +60,34 @@ public class App extends Application {
 
         cena = new Scene(root, 300, 300);
 
+        // Adicionar o arquivo css
+        cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+
         stage.setScene(cena);
         stage.show();
 
     }
 
-    public void inicializaComponentes() {
+    private void inicializaComponentes() {
+
         enunciado = new Text("Enunciado");
         alternativa1 = new Button("Questão 1");
         alternativa2 = new Button("Questão 2");
         alternativa3 = new Button("Questão 3");
         alternativa4 = new Button("Questão 4");
         alternativa5 = new Button("Questão 5");
+
+        alternativa1.setPrefWidth(200);
+        alternativa1.getStyleClass().add("botao");
+        alternativa1.setTooltip(new Tooltip("Clique para responder..."));
+
+        alternativa2.setPrefWidth(200);
+
+        alternativa3.setPrefWidth(200);
+
+        alternativa4.setPrefWidth(200);
+
+        alternativa5.setPrefWidth(200);
 
         resultado = new Text("Resultado");
         proxima = new Button("Próxima");
@@ -86,6 +102,8 @@ public class App extends Application {
         root.getChildren().add(alternativa3);
         root.getChildren().add(alternativa4);
         root.getChildren().add(alternativa5);
+        root.getChildren().add(resultado);
+        root.getChildren().add(proxima);
 
         alternativa1.setOnAction(respondeQuestao());
         alternativa2.setOnAction(respondeQuestao());
@@ -94,6 +112,9 @@ public class App extends Application {
         alternativa5.setOnAction(respondeQuestao());
         proxima.setOnAction(proximaQuestao());
 
+        resultado.setVisible(false);
+        proxima.setVisible(false);
+
     }
 
     public void atualizaComponentes() {
@@ -101,17 +122,21 @@ public class App extends Application {
         Questao objQuestao = controladorQuiz.getQuestao();
         ArrayList<String> questoes = objQuestao.getTodasAlternativas();
 
+        enunciado.setText(objQuestao.getEnunciado());
         alternativa1.setText(questoes.get(0));
         alternativa2.setText(questoes.get(1));
         alternativa3.setText(questoes.get(2));
         alternativa4.setText(questoes.get(3));
         alternativa5.setText(questoes.get(4));
 
+        resultado.setVisible(false);
+        proxima.setVisible(false);
+
     }
 
-    
     private EventHandler respondeQuestao() {
         return new EventHandler<Event>() {
+
             @Override
             public void handle(Event event) {
                 Button clicado = (Button) event.getSource();
@@ -120,12 +145,16 @@ public class App extends Application {
                 boolean result = controladorQuiz.respondeQuestao(alternativa);
 
                 if (result) {
-                    resultado.setText("uhull!! Acertou");
-                }else{
-                    resultado.setText("Que pena!! você errou");
+                    resultado.setText("Acertou!!");
+                } else {
+                    resultado.setText("Errou!!!");
                 }
 
+                resultado.setVisible(true);
+                proxima.setVisible(true);
+
             }
+
         };
     }
 
