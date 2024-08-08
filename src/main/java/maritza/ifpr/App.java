@@ -37,16 +37,16 @@ public class App extends Application {
 
         ArrayList<Questao> lista = new ArrayList<>();
 
-        lista.add(new Questao("Qual a cor favorita da prof?", "rosa",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof 2?", "verde",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof? 3", "azul",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof? 4", "cinza",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof? 5", "marrom",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
+        lista.add(new Questao("Qual é o nome do protagonista do anime Bleach? ", "Ichigo",
+                new String[] { "naruto", "Luffy", "Goku", "Itadori" }));
+        lista.add(new Questao("Qual categoria de anime Bleach entra?", "Shonen",
+                new String[] { "Seinen", "Terror", "Slice of Life", "Isekai" }));
+        lista.add(new Questao("Qual o verdadeiro vilão de Bleach? ", "Urahara",
+                new String[] { "Aizen", "Yhwach", "Ulquiorra", "Yamamoto" }));
+        lista.add(new Questao("De quem é a Bankai Ryumon Hozukimaru?", "Ikkaku",
+                new String[] { "Yumichika", "Komamura", "Yachiru", "Hinamori" }));
+        lista.add(new Questao("Dos Fillers de Bleach qual é o pior?", "A saga Bount",
+                new String[] { "Capitão Amagai", "Zampakuto desconhecida", "Arrankar a queda", "OS fillers soltos entre episódios" }));
 
         controladorQuiz = new ControladorQuiz(lista);
 
@@ -59,6 +59,7 @@ public class App extends Application {
         atualizaComponentes();
 
         cena = new Scene(root, 300, 300);
+        cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         stage.setScene(cena);
         stage.show();
@@ -86,6 +87,8 @@ public class App extends Application {
         root.getChildren().add(alternativa3);
         root.getChildren().add(alternativa4);
         root.getChildren().add(alternativa5);
+        root.getChildren().add(resultado);
+        root.getChildren().add(proxima);
 
         alternativa1.setOnAction(respondeQuestao());
         alternativa2.setOnAction(respondeQuestao());
@@ -94,12 +97,25 @@ public class App extends Application {
         alternativa5.setOnAction(respondeQuestao());
         proxima.setOnAction(proximaQuestao());
 
+        enunciado.getStyleClass().add("titulo");
+
+        alternativa1.getStyleClass().add("botao");
+        alternativa2.getStyleClass().add("botao");
+        alternativa3.getStyleClass().add("botao");
+        alternativa4.getStyleClass().add("botao");
+        alternativa5.getStyleClass().add("botao");
+
+        resultado.setVisible(false);
+        proxima.setVisible(false);
+
     }
 
     public void atualizaComponentes() {
 
         Questao objQuestao = controladorQuiz.getQuestao();
         ArrayList<String> questoes = objQuestao.getTodasAlternativas();
+
+        enunciado.setText(objQuestao.getEnunciado());
 
         alternativa1.setText(questoes.get(0));
         alternativa2.setText(questoes.get(1));
@@ -124,6 +140,8 @@ public class App extends Application {
                 }else{
                     resultado.setText("Que pena!! você errou");
                 }
+                resultado.setVisible(true);
+                proxima.setVisible(true);
 
             }
         };
@@ -139,6 +157,8 @@ public class App extends Application {
                     controladorQuiz.proximaQuestao();
                     atualizaComponentes();
                 }
+                resultado.setVisible(false);
+                proxima.setVisible(false);
             }
         };
     }
