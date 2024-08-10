@@ -1,4 +1,14 @@
+.root{
+    -fx-base: rgb(116, 209, 252);
+    -fx-text-fill:rgb(255, 253, 112);
+
+}
+
+.titulo{
+    -fx-fill:rgb(70, 75, 122);
+}
 .botao{
-    -fx-base: rgb(37, 37, 66);
-    -fx-text-fill: white;
+    -fx-base: rgb(255, 253, 112);
+    -fx-text-fill:black;
+    -fx-border-color: rgb(22, 7, 90);
 }

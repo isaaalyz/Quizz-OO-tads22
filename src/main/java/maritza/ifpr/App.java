@@ -1,5 +1,6 @@
 package maritza.ifpr;
 
+
 import java.util.ArrayList;
 
 import javafx.application.Application;
@@ -8,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -37,16 +37,16 @@ public class App extends Application {
 
         ArrayList<Questao> lista = new ArrayList<>();
 
-        lista.add(new Questao("Qual a cor favorita da prof?", "rosa",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof 2?", "verde",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof? 3", "azul",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof? 4", "cinza",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
-        lista.add(new Questao("Qual a cor favorita da prof? 5", "marrom",
-                new String[] { "preto", "laranja", "roxo", "vermelho" }));
+        lista.add(new Questao("Qual é o nome do protagonista do anime Bleach? ", "Ichigo",
+                new String[] { "naruto", "Luffy", "Goku", "Itadori" }));
+        lista.add(new Questao("Qual categoria de anime Bleach entra?", "Shonen",
+                new String[] { "Seinen", "Terror", "Slice of Life", "Isekai" }));
+        lista.add(new Questao("Qual o verdadeiro vilão de Bleach? ", "Urahara",
+                new String[] { "Aizen", "Yhwach", "Ulquiorra", "Yamamoto" }));
+        lista.add(new Questao("De quem é a Bankai Ryumon Hozukimaru?", "Ikkaku",
+                new String[] { "Yumichika", "Komamura", "Yachiru", "Hinamori" }));
+        lista.add(new Questao("Dos Fillers de Bleach qual é o pior?", "A saga Bount",
+                new String[] { "Capitão Amagai", "Zampakuto desconhecida", "Arrankar a queda", "OS fillers soltos entre episódios" }));
 
         controladorQuiz = new ControladorQuiz(lista);
 
@@ -59,8 +59,6 @@ public class App extends Application {
         atualizaComponentes();
 
         cena = new Scene(root, 300, 300);
-
-        // Adicionar o arquivo css
         cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         stage.setScene(cena);
@@ -68,26 +66,13 @@ public class App extends Application {
 
     }
 
-    private void inicializaComponentes() {
-
+    public void inicializaComponentes() {
         enunciado = new Text("Enunciado");
         alternativa1 = new Button("Questão 1");
         alternativa2 = new Button("Questão 2");
         alternativa3 = new Button("Questão 3");
         alternativa4 = new Button("Questão 4");
         alternativa5 = new Button("Questão 5");
-
-        alternativa1.setPrefWidth(200);
-        alternativa1.getStyleClass().add("botao");
-        alternativa1.setTooltip(new Tooltip("Clique para responder..."));
-
-        alternativa2.setPrefWidth(200);
-
-        alternativa3.setPrefWidth(200);
-
-        alternativa4.setPrefWidth(200);
-
-        alternativa5.setPrefWidth(200);
 
         resultado = new Text("Resultado");
         proxima = new Button("Próxima");
@@ -112,6 +97,14 @@ public class App extends Application {
         alternativa5.setOnAction(respondeQuestao());
         proxima.setOnAction(proximaQuestao());
 
+        enunciado.getStyleClass().add("titulo");
+
+        alternativa1.getStyleClass().add("botao");
+        alternativa2.getStyleClass().add("botao");
+        alternativa3.getStyleClass().add("botao");
+        alternativa4.getStyleClass().add("botao");
+        alternativa5.getStyleClass().add("botao");
+
         resultado.setVisible(false);
         proxima.setVisible(false);
 
@@ -123,20 +116,18 @@ public class App extends Application {
         ArrayList<String> questoes = objQuestao.getTodasAlternativas();
 
         enunciado.setText(objQuestao.getEnunciado());
+
         alternativa1.setText(questoes.get(0));
         alternativa2.setText(questoes.get(1));
         alternativa3.setText(questoes.get(2));
         alternativa4.setText(questoes.get(3));
         alternativa5.setText(questoes.get(4));
 
-        resultado.setVisible(false);
-        proxima.setVisible(false);
-
     }
 
+    
     private EventHandler respondeQuestao() {
         return new EventHandler<Event>() {
-
             @Override
             public void handle(Event event) {
                 Button clicado = (Button) event.getSource();
@@ -145,16 +136,14 @@ public class App extends Application {
                 boolean result = controladorQuiz.respondeQuestao(alternativa);
 
                 if (result) {
-                    resultado.setText("Acertou!!");
-                } else {
-                    resultado.setText("Errou!!!");
+                    resultado.setText("uhull!! Acertou");
+                }else{
+                    resultado.setText("Que pena!! você errou");
                 }
-
                 resultado.setVisible(true);
                 proxima.setVisible(true);
 
             }
-
         };
     }
 
@@ -168,6 +157,8 @@ public class App extends Application {
                     controladorQuiz.proximaQuestao();
                     atualizaComponentes();
                 }
+                resultado.setVisible(false);
+                proxima.setVisible(false);
             }
         };
     }
