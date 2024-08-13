@@ -37,16 +37,16 @@ public class App extends Application {
 
         ArrayList<Questao> lista = new ArrayList<>();
 
-        lista.add(new Questao("Qual é o nome do protagonista do anime Bleach? ", "Ichigo",
-                new String[] { "naruto", "Luffy", "Goku", "Itadori" }));
-        lista.add(new Questao("Qual categoria de anime Bleach entra?", "Shonen",
-                new String[] { "Seinen", "Terror", "Slice of Life", "Isekai" }));
-        lista.add(new Questao("Qual o verdadeiro vilão de Bleach? ", "Urahara",
-                new String[] { "Aizen", "Yhwach", "Ulquiorra", "Yamamoto" }));
-        lista.add(new Questao("De quem é a Bankai Ryumon Hozukimaru?", "Ikkaku",
-                new String[] { "Yumichika", "Komamura", "Yachiru", "Hinamori" }));
-        lista.add(new Questao("Dos Fillers de Bleach qual é o pior?", "A saga Bount",
-                new String[] { "Capitão Amagai", "Zampakuto desconhecida", "Arrankar a queda", "OS fillers soltos entre episódios" }));
+        lista.add(new Questao("Qual é o nome do poder da zanpakutou de Barragan Luisenbarn, que manipula a idade? ", "Todas as alternativas",
+                new String[] { "Respira", "Resupira", "Sopro da Morte", "死の息吹" }));
+        lista.add(new Questao("Qual é o nome da mãe do Ichigo?", "Masaki",
+                new String[] { "Kanae", "Tatsuki", "Rangiku", "Mashiro" }));
+        lista.add(new Questao("De quem pertence a Zampakutou Ryumon Hakaue? ", "Kensei Muguruma",
+                new String[] { "Mashiro Kuma", "Lisa Yadomaru", "Rjuro Otoribashi", "Sentaro Kotsubaki" }));
+        lista.add(new Questao("Qual é o nome do grupo de elite entre os Quincy, liderado por Yhwach, que serve como sua guarda pessoal??", "Sternritter",
+                new String[] { "Schwertritter", "Eisenritter", "Heilritter", "Ritterstern" }));
+        lista.add(new Questao("Qual é o nome do artefato que sustenta a Soul Society e é o motivo pelo qual a Soul Society e o mundo dos vivos estão separados?", "Oken",
+                new String[] { "Korin", "Hogyoku", "Ginto", "Kinki no Sho" }));
 
         controladorQuiz = new ControladorQuiz(lista);
 
