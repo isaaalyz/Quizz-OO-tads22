@@ -23,7 +23,7 @@ public class ControladorQuiz {
     }
 
     public int getTotalQuestao() {
-        return this.questoes.size();
+        return this.questoes.size()-1;
     }
 
     public boolean temProximaQuestao() {

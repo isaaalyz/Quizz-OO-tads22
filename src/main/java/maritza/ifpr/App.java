@@ -29,6 +29,7 @@ public class App extends Application {
     private Button alternativa4;
     private Button alternativa5;
     private Text resultado;
+    private Button reiniciar;
     private Button proxima;
 
     @Override
@@ -37,15 +38,15 @@ public class App extends Application {
 
         ArrayList<Questao> lista = new ArrayList<>();
 
-        lista.add(new Questao("Qual é o nome do poder da zanpakutou de Barragan Luisenbarn, que manipula a idade? ", "Todas as alternativas",
-                new String[] { "Respira", "Resupira", "Sopro da Morte", "死の息吹" }));
+        lista.add(new Questao("Qual é o nome do poder da zanpakutou de Barragan Luisenbarn, que manipula a idade? ", "Resupira",
+                new String[] { "Toque da Morte", "Envelheça", "Fogo da Morte", "年をとる" }));
         lista.add(new Questao("Qual é o nome da mãe do Ichigo?", "Masaki",
                 new String[] { "Kanae", "Tatsuki", "Rangiku", "Mashiro" }));
         lista.add(new Questao("De quem pertence a Zampakutou Ryumon Hakaue? ", "Kensei Muguruma",
                 new String[] { "Mashiro Kuma", "Lisa Yadomaru", "Rjuro Otoribashi", "Sentaro Kotsubaki" }));
         lista.add(new Questao("Qual é o nome do grupo de elite entre os Quincy, liderado por Yhwach, que serve como sua guarda pessoal??", "Sternritter",
                 new String[] { "Schwertritter", "Eisenritter", "Heilritter", "Ritterstern" }));
-        lista.add(new Questao("Qual é o nome do artefato que sustenta a Soul Society e é o motivo pelo qual a Soul Society e o mundo dos vivos estão separados?", "Oken",
+        lista.add(new Questao("Qual é o nome do artefato que divide a Soul Society da Terra?", "Oken",
                 new String[] { "Korin", "Hogyoku", "Ginto", "Kinki no Sho" }));
 
         controladorQuiz = new ControladorQuiz(lista);
@@ -58,7 +59,7 @@ public class App extends Application {
         inicializaComponentes();
         atualizaComponentes();
 
-        cena = new Scene(root, 300, 300);
+        cena = new Scene(root, 700, 500);
         cena.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 
         stage.setScene(cena);
@@ -76,6 +77,7 @@ public class App extends Application {
 
         resultado = new Text("Resultado");
         proxima = new Button("Próxima");
+        reiniciar = new Button("Reiniciar Quiz");
 
         root = new VBox();
         root.getChildren().add(enunciado);
@@ -89,6 +91,7 @@ public class App extends Application {
         root.getChildren().add(alternativa5);
         root.getChildren().add(resultado);
         root.getChildren().add(proxima);
+        root.getChildren().add(reiniciar);
 
         alternativa1.setOnAction(respondeQuestao());
         alternativa2.setOnAction(respondeQuestao());
@@ -96,6 +99,7 @@ public class App extends Application {
         alternativa4.setOnAction(respondeQuestao());
         alternativa5.setOnAction(respondeQuestao());
         proxima.setOnAction(proximaQuestao());
+        reiniciar.setOnAction(reiniciaQuiz());
 
         enunciado.getStyleClass().add("titulo");
 
@@ -106,7 +110,11 @@ public class App extends Application {
         alternativa5.getStyleClass().add("botao");
 
         resultado.setVisible(false);
+        resultado.getStyleClass().add("titulo");
         proxima.setVisible(false);
+        proxima.getStyleClass().add("botao");
+        reiniciar.setVisible(false);
+        reiniciar.getStyleClass().add("botao");
 
     }
 
@@ -137,11 +145,17 @@ public class App extends Application {
 
                 if (result) {
                     resultado.setText("uhull!! Acertou");
+
                 }else{
                     resultado.setText("Que pena!! você errou");
                 }
                 resultado.setVisible(true);
                 proxima.setVisible(true);
+                alternativa1.setDisable(true);
+                alternativa2.setDisable(true);
+                alternativa3.setDisable(true);
+                alternativa4.setDisable(true);
+                alternativa5.setDisable(true);
 
             }
         };
@@ -151,14 +165,51 @@ public class App extends Application {
         return new EventHandler<Event>() {
             @Override
             public void handle(Event event) {
-                // tem próxima questao?
+               
+                alternativa1.setDisable(false);
+                alternativa2.setDisable(false);
+                alternativa3.setDisable(false);
+                alternativa4.setDisable(false);
+                alternativa5.setDisable(false);
+
                 if (controladorQuiz.temProximaQuestao()) {
-                    // se sim muda para a próxima e atualiza a tela
                     controladorQuiz.proximaQuestao();
                     atualizaComponentes();
                 }
+                else{
+                    enunciado.setVisible(false);
+                    alternativa1.setVisible(false);
+                    alternativa2.setVisible(false);
+                    alternativa3.setVisible(false);
+                    alternativa4.setVisible(false);
+                    alternativa5.setVisible(false);
+                    reiniciar.setVisible(true);
+                    proxima.setVisible(false);
+                    resultado.setText("Acertos: "+controladorQuiz.getAcertos()+"\nErros: "+controladorQuiz.getErros());
+                    return;
+                }
+
                 resultado.setVisible(false);
                 proxima.setVisible(false);
+
+            }
+        };
+    }
+
+    private EventHandler reiniciaQuiz(){
+        return new EventHandler<Event>(){
+            @Override
+            public void handle(Event event){
+                enunciado.setVisible(true);
+                alternativa1.setVisible(true);
+                alternativa2.setVisible(true);
+                alternativa3.setVisible(true);
+                alternativa4.setVisible(true);
+                alternativa5.setVisible(true);
+                controladorQuiz.reiniciar();
+                atualizaComponentes();
+                reiniciar.setVisible(false);
+                resultado.setVisible(false);
             }
         };
     }
