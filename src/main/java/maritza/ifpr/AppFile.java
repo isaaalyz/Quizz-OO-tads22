@@ -14,6 +14,7 @@ public class AppFile {
         String respostaErrada2;
         String respostaErrada3;
         String respostaErrada4;
+        //aaaaa
 
         
         System.out.println("Digite sua pergunta");
