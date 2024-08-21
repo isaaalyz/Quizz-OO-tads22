@@ -81,7 +81,7 @@ public class App extends Application {
         root.getChildren().add(enunciado);
         root.setAlignment(Pos.CENTER);
         root.setSpacing(10.0);
-
+//aaaaaa
         root.getChildren().add(alternativa1);
         root.getChildren().add(alternativa2);
         root.getChildren().add(alternativa3);
